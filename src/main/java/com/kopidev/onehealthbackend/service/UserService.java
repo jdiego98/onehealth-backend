@@ -42,6 +42,7 @@ public class UserService {
         existingUser.setGender(user.isGender());
         existingUser.setEmail(user.getEmail());
         existingUser.setPassword(user.getPassword());
+        existingUser.setPassword(user.getType());
 
         return  repository.save(existingUser);
     }
