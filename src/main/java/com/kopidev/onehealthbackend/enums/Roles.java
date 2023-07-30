@@ -1,5 +1,5 @@
 package com.kopidev.onehealthbackend.enums;
 
-public enum UserType {
+public enum Roles {
     ADMIN, NUTRITIONIST, CLIENT, INDEPENDENT
 }

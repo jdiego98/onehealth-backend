@@ -1,9 +1,13 @@
 package com.kopidev.onehealthbackend.controller;
 
+import com.kopidev.onehealthbackend.dto.AuthRequestDTO;
+import com.kopidev.onehealthbackend.dto.AuthResponseDTO;
 import com.kopidev.onehealthbackend.dto.UserDTO;
 import com.kopidev.onehealthbackend.entity.User;
+import com.kopidev.onehealthbackend.service.AuthenticationService;
 import com.kopidev.onehealthbackend.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,24 +15,20 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@RestController @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/api/auth") @AllArgsConstructor
+@RestController
+@RequestMapping("/api/auth") @RequiredArgsConstructor
 public class AuthController {
 
-    UserService service;
+    final AuthenticationService service;
 
-    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> registration(@RequestBody UserDTO dto) {
-        Optional<User> existing = service.findByEmail(dto.email);
-        if (existing.isPresent())
-            throw new IllegalStateException();
-        return new ResponseEntity<>(service.saveUser(dto), HttpStatus.OK);
+    @PostMapping(value = "/register")
+    public ResponseEntity<Object> register(@RequestBody UserDTO dto) {
+        return ResponseEntity.ok(service.register(dto));
     }
 
-    @GetMapping(value = "/users")
-    public ResponseEntity<Object> getUsers() {
-        return new ResponseEntity<>(service.getUsers(), HttpStatus.OK);
+    @PostMapping(value ="/authenticate")
+    public ResponseEntity<AuthResponseDTO> authenticate(@RequestBody AuthRequestDTO dto) {
+        return ResponseEntity.ok(service.authenticate(dto));
     }
-
 
 }
