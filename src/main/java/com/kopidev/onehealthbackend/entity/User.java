@@ -18,9 +18,11 @@ public class User {
 
     private String name;
     private String lastName;
-    private long birthDay;
-    private boolean gender;
     private String email;
+    private long birthDay;
+    private Boolean gender;
+    private String type;
     private String password;
+
 
 }

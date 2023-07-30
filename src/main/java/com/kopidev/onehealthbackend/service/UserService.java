@@ -39,8 +39,9 @@ public class UserService {
         existingUser.setName(user.getName());
         existingUser.setLastName(user.getLastName());
         existingUser.setBirthDay(user.getBirthDay());
-        existingUser.setGender(user.isGender());
+        existingUser.setGender(user.getGender());
         existingUser.setEmail(user.getEmail());
+        existingUser.setType(user.getType());
         existingUser.setPassword(user.getPassword());
 
         return  repository.save(existingUser);
