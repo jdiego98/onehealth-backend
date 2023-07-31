@@ -14,7 +14,7 @@ public class FoodService {
     FoodRepository repo;
 
     public Object save(FoodDTO dto) {
-        Food food = this.repo.findById(dto.foodId).orElseGet(Food::new);
+        Food food = this.repo.findById(dto.foodId==null?-1:dto.foodId).orElseGet(Food::new);
         food.update(dto);
         food = this.repo.save(food);
         dto.foodId = food.getFoodId();

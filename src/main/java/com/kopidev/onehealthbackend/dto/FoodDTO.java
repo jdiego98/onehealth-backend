@@ -11,5 +11,5 @@ public class FoodDTO {
     public Integer calories;
     public Long creator;
     public String privacy;
-    public String group;
+    public String clasification;
 }

@@ -40,6 +40,6 @@ public class Food {
         this.calories = dto.calories;
         this.creator = dto.creator;
         this.privacy = PrivacyOptions.valueOf(dto.privacy);
-        this.clasification = Nutrients.valueOf(dto.group);
+        this.clasification = Nutrients.valueOf(dto.clasification);
     }
 }
