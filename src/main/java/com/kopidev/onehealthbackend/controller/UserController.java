@@ -1,38 +1,37 @@
 package com.kopidev.onehealthbackend.controller;
 
+import com.kopidev.onehealthbackend.dto.UserDTO;
 import com.kopidev.onehealthbackend.entity.User;
 import com.kopidev.onehealthbackend.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RestController @CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequestMapping("/api/users") @AllArgsConstructor
 public class UserController {
+    UserService service;
 
-    @Autowired
-    private UserService service;
-
-    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public User addUser(@RequestBody User user){
-        return service.saveUser(user);
+    @PostMapping(value = "/add")
+    public User addUser(@RequestBody UserDTO dto){
+        return service.saveUser(dto);
     }
 
-    @GetMapping("/users")
-    public List<User> findAllProducts(){
+    @GetMapping("/get")
+    public List<User> findAllUsers(){
         return service.getUsers();
     }
 
-    @GetMapping("/user/{id}")
-    public User findProductById(@PathVariable long id){
-        return service.getUsersById(id);
+    @GetMapping("/get/{id}")
+    public User findUserById(@PathVariable long id){
+        return service.getUserById(id);
     }
 
     @PutMapping("/update")
-    public User updateUser(@RequestBody User user){
-        return service.updateUser(user);
+    public User updateUser(@RequestBody UserDTO dto){
+        return service.saveUser(dto);
     }
 
     @DeleteMapping("/delete/{id}")
