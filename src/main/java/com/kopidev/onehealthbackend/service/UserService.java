@@ -1,49 +1,46 @@
 package com.kopidev.onehealthbackend.service;
 
+import com.kopidev.onehealthbackend.dto.UserDTO;
+import com.kopidev.onehealthbackend.enums.Roles;
 import com.kopidev.onehealthbackend.entity.User;
 import com.kopidev.onehealthbackend.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
+import java.util.Optional;
 
-@Service
+@Service @AllArgsConstructor
 @Transactional
 public class UserService {
 
-    @Autowired
-    private UserRepository repository;
+    UserRepository userRepo;
+    PasswordEncoder passEncoder;
 
-    public User saveUser(User user){
-       return repository.save(user);
+    public User saveUser(UserDTO dto){
+        User user = this.userRepo.findById(dto.id).orElseGet(User::new);
+        user.update(dto);
+        user.setPassword(passEncoder.encode(dto.password));
+        Roles role = Roles.valueOf(dto.type);
+        return userRepo.save(user);
     }
-
     
     public List<User> getUsers(){
-        return repository.findAll();
+        return userRepo.findAll();
     }
 
-    public User getUsersById(long id){
-        return repository.findById(id).orElse(null);
+    public User getUserById(long id){
+        return userRepo.findById(id).orElseThrow();
     }
 
     public  String deleteUser(long id){
-        repository.deleteById(id);
+        userRepo.deleteById(id);
         return "user removed";
     }
-
-    public User updateUser(User user){
-        User existingUser = repository.findById(user.getId()).orElse(null);
-        existingUser.setName(user.getName());
-        existingUser.setLastName(user.getLastName());
-        existingUser.setBirthDay(user.getBirthDay());
-        existingUser.setGender(user.getGender());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setType(user.getType());
-        existingUser.setPassword(user.getPassword());
-
-        return  repository.save(existingUser);
+    
+    public Optional<User> findByEmail(String email) {
+        return userRepo.findByEmail(email);
     }
 }
