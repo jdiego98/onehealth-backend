@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "BodyMeasurement")
+@Table(name = "BodyMeasurements")
 public class BodyMeasurement {
-    @Id
-    @GeneratedValue
-    private long id;
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private @Id long id;
     private long weight;
     private long height;
     private long bmr;
