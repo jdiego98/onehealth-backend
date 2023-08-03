@@ -16,6 +16,7 @@ public class UserController {
 
     @PostMapping(value = "/add")
     public User addUser(@RequestBody UserDTO dto){
+
         return service.saveUser(dto);
     }
 
