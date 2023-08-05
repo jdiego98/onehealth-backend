@@ -2,6 +2,7 @@ package com.kopidev.onehealthbackend.controller;
 
 import com.kopidev.onehealthbackend.dto.AuthRequestDTO;
 import com.kopidev.onehealthbackend.dto.AuthResponseDTO;
+import com.kopidev.onehealthbackend.dto.RegistrationDTO;
 import com.kopidev.onehealthbackend.dto.UserDTO;
 import com.kopidev.onehealthbackend.entity.User;
 import com.kopidev.onehealthbackend.service.AuthenticationService;
@@ -22,7 +23,7 @@ public class AuthController {
     final AuthenticationService service;
 
     @PostMapping(value = "/register")
-    public ResponseEntity<Object> register(@RequestBody UserDTO dto) {
+    public ResponseEntity<Object> register(@RequestBody RegistrationDTO dto) {
         return ResponseEntity.ok(service.register(dto));
     }
 
