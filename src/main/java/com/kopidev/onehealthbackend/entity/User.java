@@ -44,6 +44,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "nutritionist")
     private Set<User> clients = new HashSet<>();
 
+    @OneToMany(mappedBy="user")
+    private Set<BodyMeasurement> bodyMeasurements;
+
     public User(RegistrationDTO dto) {
         this.name = dto.name;
         this.lastName = dto.lastName;
