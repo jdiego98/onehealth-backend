@@ -14,12 +14,6 @@ import java.util.List;
 public class UserController {
     UserService service;
 
-    @PostMapping(value = "/add")
-    public User addUser(@RequestBody UserDTO dto){
-
-        return service.saveUser(dto);
-    }
-
     @GetMapping("/get")
     public List<User> findAllUsers(){
         return service.getUsers();

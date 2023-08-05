@@ -1,8 +1,11 @@
 package com.kopidev.onehealthbackend.entity;
 
+import com.kopidev.onehealthbackend.dto.RegistrationDTO;
 import com.kopidev.onehealthbackend.dto.UserDTO;
 import com.kopidev.onehealthbackend.enums.Genders;
+import com.kopidev.onehealthbackend.enums.PasswordStatus;
 import com.kopidev.onehealthbackend.enums.Roles;
+import com.kopidev.onehealthbackend.enums.UserStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -29,26 +32,45 @@ public class User implements UserDetails {
     @NotBlank
     private String email;
     private String password;
+    private String license;
     @Enumerated(EnumType.STRING)
     private Roles role;
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus;
+    @Enumerated(EnumType.STRING)
+    private PasswordStatus passwordStatus;
+    @ManyToOne
+    private User nutritionist;
+    @OneToMany(mappedBy = "nutritionist")
+    private Set<User> clients = new HashSet<>();
 
-    @OneToMany(mappedBy="user")
-    private Set<BodyMeasurement> bodyMeasurements;
-    
-    public User(UserDTO dto) {
+    public User(RegistrationDTO dto) {
         this.name = dto.name;
         this.lastName = dto.lastName;
         this.birthDay = dto.birthDay;
         this.gender = Genders.valueOf(dto.gender);
         this.email = dto.email;
+    }
+
+    public void updateClient(User nutritionist) {
         this.role = Roles.CLIENT;
+        this.userStatus = UserStatus.ACTIVE;
+        this.passwordStatus = PasswordStatus.EXPIRED;
+        this.nutritionist = nutritionist;
+    }
+
+    public void updateNutritionist(RegistrationDTO dto) {
+        this.license = dto.license;
+        this.role = Roles.NUTRITIONIST;
+        this.userStatus = UserStatus.PENDING;
+        this.passwordStatus = PasswordStatus.ACTIVE;
     }
 
     public void update(UserDTO dto) {
         this.name = dto.name;
         this.lastName = dto.lastName;
         this.birthDay = dto.birthDay;
-        this.gender = Genders.valueOf(dto.gender);
+        this.gender = dto.gender;
         this.email = dto.email;
     }
 
@@ -64,21 +86,28 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return this.userStatus.equals(UserStatus.ACTIVE);
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return this.userStatus.equals(UserStatus.ACTIVE);
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return this.passwordStatus.equals(PasswordStatus.ACTIVE);
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.userStatus.equals(UserStatus.ACTIVE);
     }
+
+    public String getFullName(){
+        return this.name + " " + this.lastName;
+    }
+
+
+
 }

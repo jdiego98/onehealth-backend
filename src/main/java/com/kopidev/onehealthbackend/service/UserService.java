@@ -20,7 +20,7 @@ public class UserService {
     PasswordEncoder passEncoder;
 
     public User saveUser(UserDTO dto){
-        User user = this.userRepo.findById(dto.id).orElseGet(User::new);
+        User user = this.userRepo.findById(dto.id).orElseThrow();
         user.update(dto);
         user.setPassword(passEncoder.encode(dto.password));
         Roles role = Roles.valueOf(dto.type);
