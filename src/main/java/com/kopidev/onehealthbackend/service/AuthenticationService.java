@@ -32,7 +32,7 @@ public class AuthenticationService {
         if (nutritionist.isPresent())
             user.updateClient(nutritionist.get());
         else if (dto.license != null)
-            user.updateNutritionist();
+            user.updateNutritionist(dto);
         else
             throw new IllegalStateException("Información insuficiente para determinar el estado del usuario");
         user.setPassword(passwordEncoder.encode(dto.password));

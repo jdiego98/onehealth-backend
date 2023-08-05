@@ -55,12 +55,15 @@ public class User implements UserDetails {
     public void updateClient(User nutritionist) {
         this.role = Roles.CLIENT;
         this.userStatus = UserStatus.ACTIVE;
+        this.passwordStatus = PasswordStatus.EXPIRED;
         this.nutritionist = nutritionist;
     }
 
-    public void updateNutritionist() {
+    public void updateNutritionist(RegistrationDTO dto) {
+        this.license = dto.license;
         this.role = Roles.NUTRITIONIST;
         this.userStatus = UserStatus.PENDING;
+        this.passwordStatus = PasswordStatus.ACTIVE;
     }
 
     public void update(UserDTO dto) {
@@ -88,7 +91,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.userStatus.equals(UserStatus.SUSPENDED);
+        return this.userStatus.equals(UserStatus.ACTIVE);
     }
 
     @Override
