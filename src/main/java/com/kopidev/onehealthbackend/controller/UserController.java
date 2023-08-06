@@ -20,14 +20,9 @@ public class UserController {
         return service.getUsers();
     }
 
-    @GetMapping("/get/clients/{id}")
+    @GetMapping("/clients/{id}")
     public ResponseEntity<Set<User>> findClientsByNutritionistId(@PathVariable long id){
         return ResponseEntity.ok(service.getClients(id));
-    }
-
-    @GetMapping("/clients/{id}")
-    public ResponseEntity<Set<User>> findNutritionistClients(@PathVariable long id) {
-        return ResponseEntity.ok(this.service.findAllClients(id));
     }
 
     @PutMapping("/update")
