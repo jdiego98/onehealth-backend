@@ -23,8 +23,6 @@ public class UserService {
         User user = this.userRepo.findById(dto.id).orElseThrow();
         user.update(dto);
         user.setPassword(passEncoder.encode(dto.password));
-        Roles role = Roles.valueOf(dto.type);
-        user.setRole(role);
         return userRepo.save(user);
     }
     

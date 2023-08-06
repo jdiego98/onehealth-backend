@@ -9,5 +9,6 @@ public class RegistrationDTO {
     public Long birthDay;
     public String gender;
     public String email;
+
     public CharSequence password;
 }

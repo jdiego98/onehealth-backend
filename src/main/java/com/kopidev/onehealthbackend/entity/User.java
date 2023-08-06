@@ -53,6 +53,7 @@ public class User implements UserDetails {
         this.birthDay = dto.birthDay;
         this.gender = Genders.valueOf(dto.gender);
         this.email = dto.email;
+
     }
 
     public void updateClient(User nutritionist) {
