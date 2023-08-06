@@ -1,5 +1,6 @@
 package com.kopidev.onehealthbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,8 +30,8 @@ public class BodyMeasurement {
     private long thighSkinfold;
     private long legSkinfold;
     private long measurementDate;
-
     @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 }

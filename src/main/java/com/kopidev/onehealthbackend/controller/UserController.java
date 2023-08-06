@@ -4,24 +4,25 @@ import com.kopidev.onehealthbackend.dto.UserDTO;
 import com.kopidev.onehealthbackend.entity.User;
 import com.kopidev.onehealthbackend.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/users") @AllArgsConstructor
 public class UserController {
     UserService service;
 
-    @GetMapping("/get")
+    @GetMapping
     public List<User> findAllUsers(){
         return service.getUsers();
     }
 
-    @GetMapping("/get/{id}")
-    public User findUserById(@PathVariable long id){
-        return service.getUserById(id);
+    @GetMapping("/clients/{id}")
+    public ResponseEntity<Set<User>> findClientsByNutritionistId(@PathVariable long id){
+        return ResponseEntity.ok(service.getClients(id));
     }
 
     @PutMapping("/update")

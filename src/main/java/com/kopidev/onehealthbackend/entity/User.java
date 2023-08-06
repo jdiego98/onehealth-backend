@@ -1,5 +1,7 @@
 package com.kopidev.onehealthbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kopidev.onehealthbackend.dto.RegistrationDTO;
 import com.kopidev.onehealthbackend.dto.UserDTO;
 import com.kopidev.onehealthbackend.enums.Genders;
@@ -39,12 +41,15 @@ public class User implements UserDetails {
     private UserStatus userStatus;
     @Enumerated(EnumType.STRING)
     private PasswordStatus passwordStatus;
+
     @ManyToOne
+    @JoinColumn(name = "nutritionist_id")
+    @JsonBackReference
     private User nutritionist;
-    @OneToMany(mappedBy = "nutritionist")
+    @OneToMany(mappedBy = "nutritionist", fetch = FetchType.LAZY) @JsonManagedReference
     private Set<User> clients = new HashSet<>();
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY) @JsonManagedReference
     private Set<BodyMeasurement> bodyMeasurements;
 
     public User(RegistrationDTO dto) {

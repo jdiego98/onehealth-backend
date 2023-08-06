@@ -24,4 +24,8 @@ public class FoodService {
     public void saveAll(List<FoodDTO> dto) {
         dto.forEach(this::save);
     }
+
+    public List<Food> getAll() {
+        return this.repo.findAll();
+    }
 }
