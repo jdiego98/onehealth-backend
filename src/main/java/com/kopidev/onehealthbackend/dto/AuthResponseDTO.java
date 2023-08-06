@@ -1,7 +1,6 @@
 package com.kopidev.onehealthbackend.dto;
 
 import com.kopidev.onehealthbackend.entity.User;
-import com.kopidev.onehealthbackend.enums.Roles;
 
 public class AuthResponseDTO {
     public String token;
