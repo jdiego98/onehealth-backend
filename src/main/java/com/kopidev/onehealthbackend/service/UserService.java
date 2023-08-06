@@ -1,7 +1,6 @@
 package com.kopidev.onehealthbackend.service;
 
 import com.kopidev.onehealthbackend.dto.UserDTO;
-import com.kopidev.onehealthbackend.enums.Roles;
 import com.kopidev.onehealthbackend.entity.User;
 import com.kopidev.onehealthbackend.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -11,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service @AllArgsConstructor
 @Transactional
@@ -41,5 +41,10 @@ public class UserService {
     
     public Optional<User> findByEmail(String email) {
         return userRepo.findByEmail(email);
+    }
+
+    public Set<User> getClients(long id) {
+        User user = this.userRepo.findById(id).orElseThrow();
+        return user.getClients();
     }
 }
