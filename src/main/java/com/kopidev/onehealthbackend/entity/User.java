@@ -46,10 +46,10 @@ public class User implements UserDetails {
     @JoinColumn(name = "nutritionist_id")
     @JsonBackReference
     private User nutritionist;
-    @OneToMany(mappedBy = "nutritionist") @JsonManagedReference
+    @OneToMany(mappedBy = "nutritionist", fetch = FetchType.LAZY) @JsonManagedReference
     private Set<User> clients = new HashSet<>();
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY) @JsonManagedReference
     private Set<BodyMeasurement> bodyMeasurements;
 
     public User(RegistrationDTO dto) {
