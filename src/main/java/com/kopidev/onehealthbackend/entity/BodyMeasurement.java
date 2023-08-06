@@ -29,8 +29,5 @@ public class BodyMeasurement {
     private long thighSkinfold;
     private long legSkinfold;
     private long measurementDate;
-
-    @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
-    private User user;
+    private Long userId;
 }

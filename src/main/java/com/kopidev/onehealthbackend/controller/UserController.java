@@ -25,6 +25,11 @@ public class UserController {
         return ResponseEntity.ok(service.getClients(id));
     }
 
+    @GetMapping("/clients/{id}")
+    public ResponseEntity<Set<User>> findNutritionistClients(@PathVariable long id) {
+        return ResponseEntity.ok(this.service.findAllClients(id));
+    }
+
     @PutMapping("/update")
     public User updateUser(@RequestBody UserDTO dto){
         return service.saveUser(dto);
