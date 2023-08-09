@@ -1,13 +1,17 @@
 package com.kopidev.onehealthbackend.service;
 
+import com.kopidev.onehealthbackend.dto.ClientDTO;
 import com.kopidev.onehealthbackend.dto.UserDTO;
+import com.kopidev.onehealthbackend.entity.NutritionalPlan;
 import com.kopidev.onehealthbackend.entity.User;
+import com.kopidev.onehealthbackend.repository.NutritionalPlanRepository;
 import com.kopidev.onehealthbackend.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -18,6 +22,7 @@ public class UserService {
 
     UserRepository userRepo;
     PasswordEncoder passEncoder;
+    NutritionalPlanRepository planRepo;
 
     public User saveUser(UserDTO dto){
         User user = this.userRepo.findById(dto.id).orElseThrow();
@@ -30,21 +35,17 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    public User getUserById(long id){
-        return userRepo.findById(id).orElseThrow();
-    }
-
     public  String deleteUser(long id){
         userRepo.deleteById(id);
         return "user removed";
     }
-    
-    public Optional<User> findByEmail(String email) {
-        return userRepo.findByEmail(email);
-    }
 
-    public Set<User> getClients(long id) {
-        User user = this.userRepo.findById(id).orElseThrow();
-        return user.getClients();
+    public List<ClientDTO> findAllClients(long id) {
+        List<ClientDTO> dtoList = new ArrayList<>();
+        List<User> clients = this.userRepo.findAllByNutritionistId(id);
+        for (User client: clients) {
+            dtoList.add(new ClientDTO(client));
+        }
+        return dtoList;
     }
 }

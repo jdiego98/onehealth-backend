@@ -30,7 +30,7 @@ public class AuthenticationService {
         Optional<User> nutritionist = this.repo.findById(dto.nutritionistId);
         User user = new User(dto);
         if (nutritionist.isPresent())
-            user.updateClient(nutritionist.get());
+            user.updateClient(nutritionist.get().getNutritionistId());
         else if (dto.license != null)
             user.updateNutritionist(dto);
         else

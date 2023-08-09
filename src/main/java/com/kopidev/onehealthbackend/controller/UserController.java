@@ -1,5 +1,6 @@
 package com.kopidev.onehealthbackend.controller;
 
+import com.kopidev.onehealthbackend.dto.ClientDTO;
 import com.kopidev.onehealthbackend.dto.UserDTO;
 import com.kopidev.onehealthbackend.entity.User;
 import com.kopidev.onehealthbackend.service.UserService;
@@ -8,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/users") @AllArgsConstructor
@@ -21,8 +21,8 @@ public class UserController {
     }
 
     @GetMapping("/clients/{id}")
-    public ResponseEntity<Set<User>> findClientsByNutritionistId(@PathVariable long id){
-        return ResponseEntity.ok(service.getClients(id));
+    public ResponseEntity<List<ClientDTO>> findClientsByNutritionistId(@PathVariable long id) {
+        return ResponseEntity.ok(this.service.findAllClients(id));
     }
 
     @PutMapping("/update")

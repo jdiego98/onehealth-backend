@@ -22,9 +22,7 @@ public class NutritionalPlan {
     private long dailyCarbsIntake;
     private long dailyFatIntake;
     private long dailyCaloricIntake;
-
-    @OneToMany(mappedBy="nutritionalPlan", fetch = FetchType.LAZY) @JsonManagedReference
-    private Set<MealTimeHistory> mealTimeHistories;
+    private Boolean active;
 
     public void update(NutritionalPlan plan) {
         this.startDate = plan.startDate;
