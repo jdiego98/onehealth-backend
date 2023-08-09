@@ -1,7 +1,9 @@
 package com.kopidev.onehealthbackend.controller;
 
+import com.kopidev.onehealthbackend.dto.MealTimeHistoryDTO;
 import com.kopidev.onehealthbackend.entity.MealTime;
 import com.kopidev.onehealthbackend.entity.NutritionalPlan;
+import com.kopidev.onehealthbackend.service.MealTimeHistoryService;
 import com.kopidev.onehealthbackend.service.NutritionalPlanService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import java.util.List;
 public class NutritionalPlanController {
 
     NutritionalPlanService service;
+    MealTimeHistoryService mealTimeHistoryService;
 
     @PostMapping
     public ResponseEntity<NutritionalPlan> saveNutritionalPlan(@RequestBody NutritionalPlan plan) {
@@ -28,6 +31,12 @@ public class NutritionalPlanController {
     @PostMapping("/mealtime")
     public ResponseEntity<MealTime> saveMealTime(@RequestBody MealTime meal) {
         return ResponseEntity.ok(this.service.saveMealTime(meal));
+    }
+
+    @GetMapping("/mealTimeHistory/{nutritionalId}")
+    public ResponseEntity<List<MealTimeHistoryDTO>> getAllMealTimeHistoryByNutritionalId(
+            @PathVariable long nutritionalId){
+        return ResponseEntity.ok(this.mealTimeHistoryService.getMealTimeHistoryByNutritionalId(nutritionalId));
     }
 
 }

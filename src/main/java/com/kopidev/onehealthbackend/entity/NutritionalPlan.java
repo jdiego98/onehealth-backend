@@ -1,8 +1,11 @@
 package com.kopidev.onehealthbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Entity @Getter @Setter
 @Table(name = "NUTRITIONAL_PLANS")
@@ -19,6 +22,9 @@ public class NutritionalPlan {
     private long dailyCarbsIntake;
     private long dailyFatIntake;
     private long dailyCaloricIntake;
+
+    @OneToMany(mappedBy="nutritionalPlan", fetch = FetchType.LAZY) @JsonManagedReference
+    private Set<MealTimeHistory> mealTimeHistories;
 
     public void update(NutritionalPlan plan) {
         this.startDate = plan.startDate;

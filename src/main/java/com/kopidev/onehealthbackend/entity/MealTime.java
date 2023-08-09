@@ -10,6 +10,7 @@ import lombok.Setter;
 @Table(name = "MEAL_TIME")
 public class MealTime {
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private @Id long mealId;
     private Integer hour;
     private String description;
@@ -29,5 +30,6 @@ public class MealTime {
         this.fats = meal.fats;
         this.calories = meal.calories;
         this.nutritionalPlanId = meal.nutritionalPlanId;
+        this.mealType = meal.mealType;
     }
 }
