@@ -42,15 +42,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private PasswordStatus passwordStatus;
 
-    @ManyToOne
-    @JoinColumn(name = "nutritionist_id")
-    @JsonBackReference
-    private User nutritionist;
-    @OneToMany(mappedBy = "nutritionist", fetch = FetchType.LAZY) @JsonManagedReference
-    private Set<User> clients = new HashSet<>();
-
-    @OneToMany(mappedBy="user", fetch = FetchType.LAZY) @JsonManagedReference
-    private Set<BodyMeasurement> bodyMeasurements;
+    private Long nutritionistId;
 
     public User(RegistrationDTO dto) {
         this.name = dto.name;
@@ -60,11 +52,11 @@ public class User implements UserDetails {
         this.email = dto.email;
     }
 
-    public void updateClient(User nutritionist) {
+    public void updateClient(Long nutritionistId) {
         this.role = Roles.CLIENT;
         this.userStatus = UserStatus.ACTIVE;
         this.passwordStatus = PasswordStatus.EXPIRED;
-        this.nutritionist = nutritionist;
+        this.nutritionistId = nutritionistId;
     }
 
     public void updateNutritionist(RegistrationDTO dto) {
