@@ -1,7 +1,7 @@
 package com.kopidev.onehealthbackend.dto;
 
 public class RegistrationDTO {
-    public Long nutritionistId = (long) -1;
+    public Long nutritionistId;
     public String license;
 
     public String name;
