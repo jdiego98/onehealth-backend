@@ -1,7 +1,6 @@
 package com.kopidev.onehealthbackend.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.kopidev.onehealthbackend.dto.FoodDTO;
+import com.kopidev.onehealthbackend.dto.MealTimeHistoryDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,29 +11,17 @@ import java.util.List;
 @Entity @Table(name = "MEAL_TIME_HISTORY") @Getter @Setter
 public class MealTimeHistory {
 
-
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private @Id long id;
     private long date;
     private long totalCalories;
+    private long mealTimeId;
+    private long nutritionalPlanId;
 
-    @ManyToOne
-    @JoinColumn(name = "mealTime_id")
-    @JsonBackReference
-    private MealTime mealTime;
-
-    @ManyToOne
-    @JoinColumn(name = "nutritionalPlan_id")
-    @JsonBackReference
-    private NutritionalPlan nutritionalPlan;
-
-    @ManyToMany
-    @JoinTable(
-            name = "MEAL_TIME_HISTORY_FOODS",
-            joinColumns = @JoinColumn(name = "mealTimeHistory_id"),
-            inverseJoinColumns = @JoinColumn(name = "food_id")
-    )
-    private List<Food> foods;
-
-
+    public void update(MealTimeHistoryDTO dto, NutritionalPlan plan) {
+        this.date = dto.date;
+        this.totalCalories = dto.totalCalories;
+        this.mealTimeId = dto.mealTimeId;
+        this.nutritionalPlanId = plan.getNutritionalPlanId();
+    }
 }

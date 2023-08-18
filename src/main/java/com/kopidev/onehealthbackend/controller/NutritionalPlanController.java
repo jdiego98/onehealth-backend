@@ -39,4 +39,9 @@ public class NutritionalPlanController {
         return ResponseEntity.ok(this.mealTimeHistoryService.getMealTimeHistoryByNutritionalId(nutritionalId));
     }
 
+    @PostMapping("/mealTimeHistory")
+    public ResponseEntity<Object> trackNewMealTime(@RequestBody MealTimeHistoryDTO dto) {
+        return ResponseEntity.ok(this.mealTimeHistoryService.saveMealTimeHistory(dto));
+    }
+
 }
