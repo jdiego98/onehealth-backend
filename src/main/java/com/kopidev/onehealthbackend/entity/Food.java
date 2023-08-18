@@ -29,9 +29,6 @@ public class Food {
     @Enumerated(EnumType.STRING)
     private Nutrients clasification;
 
-    @ManyToMany(mappedBy = "foods")
-
-
     public void update(FoodDTO dto) {
         this.name = dto.name;
         this.measure = Measurements.valueOf(dto.measure);
