@@ -18,7 +18,7 @@ public class NutritionalPlanController {
     NutritionalPlanService service;
     MealTimeHistoryService mealTimeHistoryService;
 
-    @PostMapping
+    @PostMapping(value = "/add")
     public ResponseEntity<NutritionalPlan> saveNutritionalPlan(@RequestBody NutritionalPlan plan) {
         return ResponseEntity.ok(this.service.savePlan(plan));
     }
