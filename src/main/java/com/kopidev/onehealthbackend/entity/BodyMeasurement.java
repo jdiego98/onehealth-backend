@@ -30,5 +30,5 @@ public class BodyMeasurement {
     private long thighSkinfold;
     private long legSkinfold;
     private long measurementDate;
-    private Long userId;
+    private long userId;
 }

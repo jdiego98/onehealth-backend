@@ -21,4 +21,8 @@ public class BodyMeasurementService {
     public List<BodyMeasurement> findAllByUserId(long id) {
         return repository.findAllByUserId(id);
     }
+
+    public BodyMeasurement findLatestByUserId(long id) {
+        return repository.findLatestByUserId(id);
+    }
 }

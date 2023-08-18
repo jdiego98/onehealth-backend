@@ -1,5 +1,6 @@
 package com.kopidev.onehealthbackend.controller;
 
+import com.kopidev.onehealthbackend.dto.ClientDTO;
 import com.kopidev.onehealthbackend.entity.BodyMeasurement;
 import com.kopidev.onehealthbackend.service.BodyMeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ public class BodyMeasurementController {
     @Autowired
     private BodyMeasurementService service;
 
-    @RequestMapping(value = "/addBodyMeasurement", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BodyMeasurement addbodymeasurement(@RequestBody BodyMeasurement bodyMeasurement){
         return service.saveBodyMeasurement(bodyMeasurement);
     }
@@ -24,4 +25,10 @@ public class BodyMeasurementController {
     public ResponseEntity<List<BodyMeasurement>> getUsersBodyMeasurements(@PathVariable long id) {
         return ResponseEntity.ok(this.service.findAllByUserId(id));
     }
+
+    @GetMapping("/latest/user/{id}")
+    public ResponseEntity<BodyMeasurement> getLatestBodyMeasurement(@PathVariable long id) {
+        return ResponseEntity.ok(this.service.findLatestByUserId(id));
+    }
+
 }
