@@ -6,6 +6,7 @@ import com.kopidev.onehealthbackend.entity.*;
 import com.kopidev.onehealthbackend.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -23,7 +24,6 @@ public class MealTimeHistoryService {
     FoodRepository foodRepo;
 
     private List<MealTimeHistoryDTO> getMealTimeHistory(long nutritionalId) {
-
         // Se obtiene los mealtimes por nutritionalID
         List<MealTime> mealTimes = mealTimeRepo.findAllByNutritionalPlanId(nutritionalId);
         LocalDate currentDate = LocalDate.now();
@@ -38,6 +38,7 @@ public class MealTimeHistoryService {
         for(MealTime m: mealTimes){ //MealTimes del plan nutricional
             MealTimeHistoryDTO mealDTO = new MealTimeHistoryDTO();
             mealDTO.mealTimeId = m.getMealId();
+            mealDTO.nutritionalPlanId = nutritionalId;
             mealDTO.mealType = m.getMealType();
             mealDTO.hour = m.getHour();
             mealDTO.idealcalories = m.getCalories();
@@ -67,14 +68,22 @@ public class MealTimeHistoryService {
         return getMealTimeHistory(nutritionalId);
     }
 
+    @Transactional
     public MealTimeHistoryDTO saveMealTimeHistory(MealTimeHistoryDTO dto){
+        if (dto.mealTimeHistoryId == null)
+            dto.mealTimeHistoryId = -1L;
+        long todayMillis = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
         MealTimeHistory persisted = this.mealTimeHistoRepo.findById(dto.mealTimeHistoryId).orElseGet(MealTimeHistory::new);
         MealTime meal = this.mealTimeRepo.findById(dto.mealTimeId).orElseThrow();
         NutritionalPlan plan = this.planRepo.findById(meal.getNutritionalPlanId()).orElseThrow();
         persisted.update(dto, plan);
+        if (dto.date == 0L)
+            persisted.setDate(todayMillis);
         persisted = this.mealTimeHistoRepo.saveAndFlush(persisted);
         List<TrackedFoodDTO> savedFood = new ArrayList<>();
         for (TrackedFoodDTO foodDTO: dto.foods) {
+            if (foodDTO.mealTimeHistoryFoodId == null)
+                foodDTO.mealTimeHistoryFoodId = -1L;
             TrackedMealFood food = this.mealFoodRepo.findById(foodDTO.mealTimeHistoryFoodId).orElseGet(TrackedMealFood::new);
             food.setMealTimeHistoryId(persisted.getMealTimeId());
             food.setFoodId(foodDTO.foodId);

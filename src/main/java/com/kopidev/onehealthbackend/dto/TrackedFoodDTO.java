@@ -7,7 +7,9 @@ import com.kopidev.onehealthbackend.enums.Nutrients;
 import com.kopidev.onehealthbackend.enums.PrivacyOptions;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class TrackedFoodDTO {
 
     public Long mealTimeHistoryFoodId;

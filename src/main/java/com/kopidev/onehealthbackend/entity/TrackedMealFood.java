@@ -8,6 +8,8 @@ import jakarta.persistence.*;
 
 @Entity @Getter @Setter @Table(name = "MEAL_TIME_HISTORY_FOODS")
 public class TrackedMealFood {
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private @Id Long trackedMealId;
     private Long mealTimeHistoryId;
     private Long foodId;
