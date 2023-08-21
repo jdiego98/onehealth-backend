@@ -86,7 +86,7 @@ public class MealTimeHistoryService {
             if (foodDTO.mealTimeHistoryFoodId == null)
                 foodDTO.mealTimeHistoryFoodId = -1L;
             TrackedMealFood food = this.mealFoodRepo.findById(foodDTO.mealTimeHistoryFoodId).orElseGet(TrackedMealFood::new);
-            food.setMealTimeHistoryId(persisted.getMealTimeId());
+            food.setMealTimeHistoryId(persisted.getId());
             food.setFoodId(foodDTO.foodId);
             food.setServings(foodDTO.servings);
             food = this.mealFoodRepo.saveAndFlush(food);
