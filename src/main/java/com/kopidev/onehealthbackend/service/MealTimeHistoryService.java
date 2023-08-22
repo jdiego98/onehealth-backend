@@ -82,11 +82,10 @@ public class MealTimeHistoryService {
         if (dto.date == 0L)
             persisted.setDate(todayMillis);
         persisted = this.mealTimeHistoRepo.saveAndFlush(persisted);
+        mealFoodRepo.deleteAllByMealTimeHistoryId(dto.mealTimeHistoryId);
         List<TrackedFoodDTO> savedFood = new ArrayList<>();
         for (TrackedFoodDTO foodDTO: dto.foods) {
-            if (foodDTO.mealTimeHistoryFoodId == null)
-                foodDTO.mealTimeHistoryFoodId = -1L;
-            TrackedMealFood food = this.mealFoodRepo.findById(foodDTO.mealTimeHistoryFoodId).orElseGet(TrackedMealFood::new);
+            TrackedMealFood food = new TrackedMealFood();
             food.setMealTimeHistoryId(persisted.getId());
             food.setFoodId(foodDTO.foodId);
             food.setServings(foodDTO.servings);
