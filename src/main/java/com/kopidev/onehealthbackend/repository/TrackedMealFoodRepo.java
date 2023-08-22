@@ -10,4 +10,6 @@ import java.util.List;
 public interface TrackedMealFoodRepo extends JpaRepository<TrackedMealFood, Long> {
     List<TrackedMealFood> findAllByMealTimeHistoryId(long mealTimeId);
 
+    void deleteAllByMealTimeHistoryId(Long mealTimeHistoryId);
+
 }
