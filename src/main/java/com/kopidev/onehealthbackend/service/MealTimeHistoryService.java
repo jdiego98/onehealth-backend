@@ -48,7 +48,8 @@ public class MealTimeHistoryService {
                     mealDTO.mealTimeHistoryId = trackedMeal.getId();
                     mealDTO.totalCalories = trackedMeal.getTotalCalories();
                     mealDTO.date = trackedMeal.getDate();
-                    List<TrackedFoodDTO> foods = this.mealFoodRepo.findAllByMealTimeHistoryId(trackedMeal.getMealTimeId())
+                    List<TrackedMealFood> list = this.mealFoodRepo.findAllByMealTimeHistoryId(trackedMeal.getId());
+                    List<TrackedFoodDTO> foods = this.mealFoodRepo.findAllByMealTimeHistoryId(trackedMeal.getId())
                             .stream().map(TrackedFoodDTO::new).toList();
                     foods.stream().forEach(this::addFoodInfo);
                     mealDTO.foods = foods;
