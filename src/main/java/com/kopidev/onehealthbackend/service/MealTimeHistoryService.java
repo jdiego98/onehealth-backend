@@ -24,7 +24,14 @@ public class MealTimeHistoryService {
     FoodRepository foodRepo;
 
     private List<MealTimeHistoryDTO> getMealTimeHistory(long clientId) {
-        long nutritionalId = this.planRepo.findFirstByUserId(clientId).orElseThrow().getNutritionalPlanId();
+//
+        List<NutritionalPlan> nutritionalPlans = this.planRepo.findAllByUserId(clientId);
+
+        if (nutritionalPlans.isEmpty())
+            return null;
+
+        long nutritionalId = nutritionalPlans.get(nutritionalPlans.size() - 1).getNutritionalPlanId();
+
         // Se obtiene los mealtimes por nutritionalID
         List<MealTime> mealTimes = mealTimeRepo.findAllByNutritionalPlanId(nutritionalId);
         LocalDate currentDate = LocalDate.now();
