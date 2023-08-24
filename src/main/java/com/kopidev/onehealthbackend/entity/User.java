@@ -72,6 +72,7 @@ public class User implements UserDetails {
         this.birthDay = dto.birthDay;
         this.gender = dto.gender;
         this.email = dto.email;
+        this.license = dto.license;
     }
 
     @Override
