@@ -28,7 +28,8 @@ public class UserService {
     public User saveUser(UserDTO dto){
         User user = this.userRepo.findById(dto.id).orElseThrow();
         user.update(dto);
-        user.setPassword(passEncoder.encode(dto.password));
+        if (dto.password != null)
+            user.setPassword(passEncoder.encode(dto.password));
         return userRepo.save(user);
     }
     
