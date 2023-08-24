@@ -25,6 +25,11 @@ public class UserController {
         return ResponseEntity.ok(this.service.findAllClients(id));
     }
 
+    @PutMapping("/activate/{id}")
+    public ResponseEntity<Object> activatePendingNutritionist(@PathVariable long id) {
+        return ResponseEntity.ok(this.service.activateNutritionist(id));
+    }
+
     @PutMapping("/update")
     public User updateUser(@RequestBody UserDTO dto){
         return service.saveUser(dto);
