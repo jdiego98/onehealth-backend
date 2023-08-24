@@ -19,7 +19,7 @@ public class NutritionalPlanService {
     public NutritionalPlan savePlan(NutritionalPlan plan) {
         NutritionalPlan persisted = this.repo.findById(plan.getNutritionalPlanId()).orElseGet(NutritionalPlan::new);
         persisted.update(plan);
-        return this.repo.save(persisted);
+        return this.repo.save(plan);
     }
 
     public List<NutritionalPlan> getClientsPlans(long id) {
@@ -29,7 +29,9 @@ public class NutritionalPlanService {
     public MealTime saveMealTime(MealTime meal) {
         MealTime persisted = this.mealRepo.findById(meal.getMealId()).orElseGet(MealTime::new);
         persisted.update(meal);
-        return this.mealRepo.save(persisted);
+        return this.mealRepo.save(meal);
     }
+
+    public List<MealTime> getMealTimeByPlanlId(long planId) { return this.mealRepo.findAllByNutritionalPlanId(planId); }
 
 }

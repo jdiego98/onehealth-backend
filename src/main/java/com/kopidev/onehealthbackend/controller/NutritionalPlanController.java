@@ -33,6 +33,12 @@ public class NutritionalPlanController {
         return ResponseEntity.ok(this.service.saveMealTime(meal));
     }
 
+    @GetMapping("/{id}/mealtimes")
+    public ResponseEntity<List<MealTime>> getAllPlanMealTime(
+            @PathVariable long id){
+        return ResponseEntity.ok(this.service.getMealTimeByPlanlId(id));
+    }
+
     @GetMapping("/mealTimeHistory/{nutritionalId}")
     public ResponseEntity<List<MealTimeHistoryDTO>> getAllMealTimeHistoryByNutritionalId(
             @PathVariable long nutritionalId){

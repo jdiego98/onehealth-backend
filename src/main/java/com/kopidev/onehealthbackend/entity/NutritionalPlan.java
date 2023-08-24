@@ -25,6 +25,8 @@ public class NutritionalPlan {
     private Boolean active;
 
     public void update(NutritionalPlan plan) {
+        this.nutritionistId = plan.nutritionistId;
+        this.userId = plan.userId;
         this.startDate = plan.startDate;
         this.endDate = plan.endDate;
         this.goal = plan.goal;
