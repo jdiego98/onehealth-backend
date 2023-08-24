@@ -23,7 +23,8 @@ public class MealTimeHistoryService {
     TrackedMealFoodRepo mealFoodRepo;
     FoodRepository foodRepo;
 
-    private List<MealTimeHistoryDTO> getMealTimeHistory(long nutritionalId) {
+    private List<MealTimeHistoryDTO> getMealTimeHistory(long clientId) {
+        long nutritionalId = this.planRepo.findFirstByUserId(clientId).orElseThrow().getNutritionalPlanId();
         // Se obtiene los mealtimes por nutritionalID
         List<MealTime> mealTimes = mealTimeRepo.findAllByNutritionalPlanId(nutritionalId);
         LocalDate currentDate = LocalDate.now();
@@ -47,7 +48,8 @@ public class MealTimeHistoryService {
                     mealDTO.mealTimeHistoryId = trackedMeal.getId();
                     mealDTO.totalCalories = trackedMeal.getTotalCalories();
                     mealDTO.date = trackedMeal.getDate();
-                    List<TrackedFoodDTO> foods = this.mealFoodRepo.findAllByMealTimeHistoryId(trackedMeal.getMealTimeId())
+                    List<TrackedMealFood> list = this.mealFoodRepo.findAllByMealTimeHistoryId(trackedMeal.getId());
+                    List<TrackedFoodDTO> foods = this.mealFoodRepo.findAllByMealTimeHistoryId(trackedMeal.getId())
                             .stream().map(TrackedFoodDTO::new).toList();
                     foods.stream().forEach(this::addFoodInfo);
                     mealDTO.foods = foods;
@@ -64,8 +66,8 @@ public class MealTimeHistoryService {
     }
 
 
-    public List<MealTimeHistoryDTO> getMealTimeHistoryByNutritionalId(long nutritionalId){
-        return getMealTimeHistory(nutritionalId);
+    public List<MealTimeHistoryDTO> getClientPlanMealTimeHistory(long clientId){
+        return getMealTimeHistory(clientId);
     }
 
     @Transactional
@@ -80,12 +82,11 @@ public class MealTimeHistoryService {
         if (dto.date == 0L)
             persisted.setDate(todayMillis);
         persisted = this.mealTimeHistoRepo.saveAndFlush(persisted);
+        mealFoodRepo.deleteAllByMealTimeHistoryId(dto.mealTimeHistoryId);
         List<TrackedFoodDTO> savedFood = new ArrayList<>();
         for (TrackedFoodDTO foodDTO: dto.foods) {
-            if (foodDTO.mealTimeHistoryFoodId == null)
-                foodDTO.mealTimeHistoryFoodId = -1L;
-            TrackedMealFood food = this.mealFoodRepo.findById(foodDTO.mealTimeHistoryFoodId).orElseGet(TrackedMealFood::new);
-            food.setMealTimeHistoryId(persisted.getMealTimeId());
+            TrackedMealFood food = new TrackedMealFood();
+            food.setMealTimeHistoryId(persisted.getId());
             food.setFoodId(foodDTO.foodId);
             food.setServings(foodDTO.servings);
             food = this.mealFoodRepo.saveAndFlush(food);

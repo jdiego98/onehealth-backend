@@ -42,7 +42,7 @@ public class NutritionalPlanController {
     @GetMapping("/mealTimeHistory/{nutritionalId}")
     public ResponseEntity<List<MealTimeHistoryDTO>> getAllMealTimeHistoryByNutritionalId(
             @PathVariable long nutritionalId){
-        return ResponseEntity.ok(this.mealTimeHistoryService.getMealTimeHistoryByNutritionalId(nutritionalId));
+        return ResponseEntity.ok(this.mealTimeHistoryService.getClientPlanMealTimeHistory(nutritionalId));
     }
 
     @PostMapping("/mealTimeHistory")
