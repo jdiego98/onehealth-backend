@@ -4,6 +4,7 @@ import com.kopidev.onehealthbackend.dto.ClientDTO;
 import com.kopidev.onehealthbackend.dto.UserDTO;
 import com.kopidev.onehealthbackend.entity.NutritionalPlan;
 import com.kopidev.onehealthbackend.entity.User;
+import com.kopidev.onehealthbackend.enums.UserStatus;
 import com.kopidev.onehealthbackend.repository.NutritionalPlanRepository;
 import com.kopidev.onehealthbackend.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -47,5 +48,11 @@ public class UserService {
             dtoList.add(new ClientDTO(client));
         }
         return dtoList;
+    }
+
+    public Object activateNutritionist(long id) {
+        User nutritionist = this.userRepo.findById(id).orElseThrow();
+        nutritionist.setUserStatus(UserStatus.ACTIVE);
+        return this.userRepo.save(nutritionist);
     }
 }
