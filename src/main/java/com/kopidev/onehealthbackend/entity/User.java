@@ -55,7 +55,7 @@ public class User implements UserDetails {
     public void updateClient(Long nutritionistId) {
         this.role = Roles.CLIENT;
         this.userStatus = UserStatus.ACTIVE;
-        this.passwordStatus = PasswordStatus.EXPIRED;
+        this.passwordStatus = PasswordStatus.ACTIVE;
         this.nutritionistId = nutritionistId;
     }
 
